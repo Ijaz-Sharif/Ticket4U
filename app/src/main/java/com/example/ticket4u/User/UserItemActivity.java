@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ticket4u.Admin.AdminMainActivity;
+import com.example.ticket4u.Admin.CategoryActivity;
+import com.example.ticket4u.Admin.SubCategoryActivity;
 import com.example.ticket4u.Model.Item;
 import com.example.ticket4u.R;
 import com.example.ticket4u.Utils.Constant;
@@ -121,31 +124,29 @@ public class UserItemActivity extends AppCompatActivity {
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
+                    final CharSequence[] options = {"Delete","Mark As Sold?", "Cancel"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(UserItemActivity.this);
-                    builder.setTitle("Alert");
-                    builder.setMessage("Mark As Sold?");
-
-                    // add the buttons
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setTitle("Select option");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId()).removeValue();
-                            getAllData();
-                            dialog.dismiss();
+                        public void onClick(DialogInterface dialog, int item) {
+                            if (options[item].equals("Delete")) {
+                                FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId()).removeValue();
+                                getAllData();
+                                dialog.dismiss();
+                            } else if (options[item].equals("Cancel")) {
+                                dialog.dismiss();
+                            }
+                            else if (options[item].equals("Mark As Sold?")) {
+                                FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId()).removeValue();
+                                getAllData();
+                                dialog.dismiss();
+                            }
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.dismiss();
-                        }
-                    });
-
-                    // create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    builder.show();
                 }
             });
 

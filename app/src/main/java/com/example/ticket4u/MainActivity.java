@@ -22,6 +22,7 @@ import android.view.View;
 
 import com.example.ticket4u.Fragment.HomeFragment;
 import com.example.ticket4u.Fragment.LoginFragment;
+import com.example.ticket4u.User.AboutActivity;
 import com.example.ticket4u.User.AccountActivity;
 import com.example.ticket4u.User.AddItemActivity;
 import com.example.ticket4u.User.PreferedItemActivity;
@@ -59,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id._home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frag,new HomeFragment()).commit();
                         break;
+                        case R.id._login:
+                            startActivity(new Intent(MainActivity.this, AccountActivity.class));
+                            break;
+                            case R.id._about:
+                                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        break;
                     case R.id.add_ticket:
                         startActivity(new Intent(MainActivity.this, SelectCategoryActivity.class));
                         break;
@@ -87,13 +94,17 @@ public class MainActivity extends AppCompatActivity {
         if(!getUserLoginStatus(MainActivity.this)){
             item.setVisible(false);//
             item1.setVisible(true);
-              drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+                hideOption();
+
         }
         // if user  login
         else {
             item.setVisible(true);//
             item1.setVisible(false);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+
+
         }
 
         return true;
@@ -117,6 +128,23 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void hideOption(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
+
+        Menu menu =navigationView.getMenu();
+
+        MenuItem profile = menu.findItem(R.id.profile_screen);
+        profile.setVisible(false);
+        MenuItem addticket = menu.findItem(R.id.add_ticket);
+        addticket.setVisible(false);
+        MenuItem personal_item = menu.findItem(R.id.personal_item);
+        personal_item.setVisible(false);
+        MenuItem Prefeard_item = menu.findItem(R.id.Prefeard_item);
+        Prefeard_item.setVisible(false);
+        MenuItem _logout = menu.findItem(R.id._logout);
+        _logout.setVisible(false);
     }
 
 }

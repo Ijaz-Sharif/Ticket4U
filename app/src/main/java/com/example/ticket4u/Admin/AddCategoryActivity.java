@@ -78,7 +78,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     }
 
-    public void saveRecord(View view) {
+    public void saveCategoryRecord(View view) {
         if(et_catrgory.getText().toString().isEmpty()){
             et_catrgory.setError("required");
         }
@@ -86,18 +86,16 @@ public class AddCategoryActivity extends AppCompatActivity {
             if(imgUri==null){
                 Toast.makeText(AddCategoryActivity.this,"image is required", Toast.LENGTH_SHORT).show();
             }
+            else {
+                addRecord();
+            }
 
         }
         else {
-             if(getIntent().getStringExtra("name").equals("empty")){
-               addRecord();
-             }
-             else {
-                 DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Category")
-                         .child(getIntent().getStringExtra("name")).child("SubCategory").child(et_catrgory.getText().toString());
-                 databaseReference.child("SubName").setValue(et_catrgory.getText().toString());
-                 finish();
-             }
+            DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Category")
+                    .child(getIntent().getStringExtra("name")).child("SubCategory").child(et_catrgory.getText().toString());
+            databaseReference.child("SubName").setValue(et_catrgory.getText().toString());
+            finish();
         }
     }
     public void addRecord(){

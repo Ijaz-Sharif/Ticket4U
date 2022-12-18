@@ -17,6 +17,12 @@
         android:id="@+id/Prefeard_item"
         android:title="View Prefeard items"/>
     <item
+        android:id="@+id/_login"
+        android:title="Login"/>
+    <item
+        android:id="@+id/_about"
+        android:title="About"/>
+    <item
         android:id="@+id/_logout"
         android:title="Logout"/>
 </menu>

@@ -34,12 +34,18 @@ public class ViewReportActivity extends AppCompatActivity {
     }
     public void getData(){
         loadingDialog.dismiss();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Items").child(getIntent().getStringExtra("id")).child("Report");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Items").child(getIntent().getStringExtra("itemId")).child("Report");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
               String report=  dataSnapshot.child("itemReport").getValue(String.class);
-                   report_text.setText(report);
+              if(report==null){
+                  report_text.setText("no report found");
+              }
+              else {
+                  report_text.setText(report);
+              }
+
                 loadingDialog.dismiss();
             }
 

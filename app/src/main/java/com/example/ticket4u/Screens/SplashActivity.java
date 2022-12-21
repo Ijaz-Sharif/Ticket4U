@@ -15,12 +15,12 @@ import com.example.ticket4u.MainActivity;
 import com.example.ticket4u.R;
 
 public class SplashActivity extends AppCompatActivity {
-    LottieAnimationView lottieAnimationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        lottieAnimationView = findViewById(R.id.lottie);
+
         Thread thread=new Thread(){
             @Override
             public void run() {

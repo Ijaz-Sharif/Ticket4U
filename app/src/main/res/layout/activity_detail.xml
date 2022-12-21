@@ -123,6 +123,15 @@
                 android:text="get location"
                 app:backgroundTint="@color/peach"
                 tools:ignore="HardcodedText" />
+            <Button
+                android:onClick="addReport"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="30dp"
+                android:text="Add report"
+                app:backgroundTint="@color/peach"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 

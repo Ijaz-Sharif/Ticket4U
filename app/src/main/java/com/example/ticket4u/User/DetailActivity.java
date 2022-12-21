@@ -1,6 +1,7 @@
 package com.example.ticket4u.User;
 
 import static com.example.ticket4u.Fragment.HomeFragment.itemArrayList;
+import static com.example.ticket4u.Utils.Constant.getUserId;
 import static com.example.ticket4u.Utils.Constant.setUserEmail;
 import static com.example.ticket4u.Utils.Constant.setUserId;
 import static com.example.ticket4u.Utils.Constant.setUserLoginStatus;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.ticket4u.Map.MapsActivity;
 import com.example.ticket4u.R;
@@ -94,5 +96,16 @@ public class DetailActivity extends AppCompatActivity {
          startActivity(new Intent(this, MapsActivity.class)
                  .putExtra("latitude",latitude)
                  .putExtra("longitude",longitude));
+    }
+
+    public void addReport(View view) {
+          if(itemArrayList.get(index).getUserId().equals(getUserId(this))){
+              Toast.makeText(DetailActivity.this, "you can not add report ", Toast.LENGTH_SHORT).show();
+          }
+          else {
+              startActivity(new Intent(this,AddReportActivity.class)
+                      .putExtra("id",itemArrayList.get(index).getItemId()));
+          }
+
     }
 }

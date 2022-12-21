@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ticket4u.Admin.AdminActivity;
 import com.example.ticket4u.Admin.AdminMainActivity;
 import com.example.ticket4u.MainActivity;
 import com.example.ticket4u.R;
@@ -105,7 +106,7 @@ public class LoginFragment extends Fragment {
         if (email.equals("admin@gmail.com")&&password.equals("admin123")) {
             loadingDialog.dismiss();
             setAdminLoginStatus(getContext(),true);
-            startActivity(new Intent(getContext(), AdminMainActivity.class));
+            startActivity(new Intent(getContext(), AdminActivity.class));
             getActivity().finish();
 
         }

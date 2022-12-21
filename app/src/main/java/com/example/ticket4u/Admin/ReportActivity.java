@@ -1,10 +1,5 @@
 package com.example.ticket4u.Admin;
 
-import static com.example.ticket4u.Utils.Constant.ShowMessageDialogWithOkBtn;
-import static com.example.ticket4u.Utils.Constant.getUserLoginStatus;
-import static com.example.ticket4u.Utils.Constant.setAdminLoginStatus;
-import static com.example.ticket4u.Utils.Constant.setUserLoginStatus;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -18,18 +13,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ticket4u.Fragment.HomeFragment;
-import com.example.ticket4u.MainActivity;
 import com.example.ticket4u.Model.Item;
 import com.example.ticket4u.R;
-import com.example.ticket4u.User.DetailActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,15 +29,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdminMainActivity extends AppCompatActivity {
-    public  ArrayList<Item> itemArrayList =new ArrayList<Item>();
+public class ReportActivity extends AppCompatActivity {
+    public ArrayList<Item> itemArrayList =new ArrayList<Item>();
     CategoryAdapter categoryAdapter;
     private Dialog loadingDialog;
     RecyclerView listrecylerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_main);
+        setContentView(R.layout.activity_report);
         //loading dialog
         loadingDialog=new Dialog(this);
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
@@ -56,7 +46,7 @@ public class AdminMainActivity extends AppCompatActivity {
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         listrecylerView=findViewById(R.id.listrecylerView);
         listrecylerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-             getAllData();
+        getAllData();
     }
 
     public void getAllData(){
@@ -99,7 +89,7 @@ public class AdminMainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public CategoryAdapter.ImageViewHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(AdminMainActivity.this).inflate(R.layout.item_list,parent,false);
+            View v= LayoutInflater.from(ReportActivity.this).inflate(R.layout.item_list,parent,false);
             return  new CategoryAdapter.ImageViewHoler(v);
         }
 
@@ -107,13 +97,13 @@ public class AdminMainActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull final CategoryAdapter.ImageViewHoler holder, @SuppressLint("RecyclerView") int position) {
 
 
-                holder.fav_icon.setVisibility(View.GONE);
+            holder.fav_icon.setVisibility(View.GONE);
 
 
 
 
 
-            Picasso.with(AdminMainActivity.this)
+            Picasso.with(ReportActivity.this)
                     .load(itemArrayList.get(position).getPic())
                     .placeholder(R.drawable.progress_animation)
                     .fit()
@@ -127,18 +117,18 @@ public class AdminMainActivity extends AppCompatActivity {
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AdminMainActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportActivity.this);
                     builder.setTitle("Alert");
-                    builder.setMessage("Do you want to delete?");
+                    builder.setMessage("Do you want to see the item report?");
 
                     // add the buttons
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId()).removeValue();
-                                               getAllData();
-                                       dialog.dismiss();
+                                   startActivity(new Intent(ReportActivity.this,ViewReportActivity.class)
+                                   .putExtra("itemId",itemArrayList.get(position).getItemId()));
+                            dialog.dismiss();
                         }
                     });
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -180,7 +170,4 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }

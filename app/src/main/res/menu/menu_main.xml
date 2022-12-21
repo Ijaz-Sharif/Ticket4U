@@ -3,7 +3,4 @@
     <item
         android:id="@+id/logout"
         android:title="Logout"/>
-    <item
-        android:id="@+id/category"
-        android:title="View Category"/>
 </menu>

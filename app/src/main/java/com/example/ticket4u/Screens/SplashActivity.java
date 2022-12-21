@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.ticket4u.Admin.AdminActivity;
 import com.example.ticket4u.Admin.AdminMainActivity;
 import com.example.ticket4u.MainActivity;
 import com.example.ticket4u.R;
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 try {
                     sleep(3000);
                    if(getAdminLoginStatus(SplashActivity.this)) {
-                        startActivity(new Intent(SplashActivity.this, AdminMainActivity.class));
+                        startActivity(new Intent(SplashActivity.this, AdminActivity.class));
                         finish();
                     }
                     else {

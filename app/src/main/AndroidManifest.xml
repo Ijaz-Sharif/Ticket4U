@@ -14,25 +14,44 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mangement">
         <activity
-            android:name=".User.AboutActivity"
+            android:name=".Admin.ViewReportActivity"
+            android:exported="true"
+            android:parentActivityName=".Admin.ReportActivity"/>
+        <activity
+            android:name=".Admin.ReportActivity"
+            android:exported="true"
+            android:parentActivityName=".Admin.AdminActivity"/>
+        <activity
+            android:name=".User.AddReportActivity"
+            android:exported="true"
+            android:parentActivityName=".User.DetailActivity"/>
+        <activity
+            android:name=".Admin.AdminActivity"
             android:exported="true" />
         <activity
+            android:name=".User.AboutActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".User.UserItemActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".User.SelectCategoryActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".User.DetailActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -55,7 +74,8 @@
         <activity
             android:name=".Map.MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".User.DetailActivity"/>
         <activity
             android:name=".Admin.AddCategoryActivity"
             android:exported="false">
@@ -65,14 +85,16 @@
         </activity>
         <activity
             android:name=".Admin.SubCategoryActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".Admin.CategoryActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Admin.CategoryActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".Admin.AdminActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -86,7 +108,8 @@
         </activity>
         <activity
             android:name=".Admin.AdminMainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Admin.AdminActivity"/>
         <activity
             android:name=".Screens.SplashActivity"
             android:exported="true">
@@ -101,10 +124,12 @@
             android:exported="false" />
         <activity
             android:name=".User.PreferedItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".User.UpdateProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".User.AccountActivity"
             android:exported="false" />

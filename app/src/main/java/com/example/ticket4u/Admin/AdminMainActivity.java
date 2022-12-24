@@ -63,7 +63,7 @@ public class AdminMainActivity extends AppCompatActivity {
         loadingDialog.show();
         itemArrayList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Items");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){

@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class UserItemActivity extends AppCompatActivity {
-    public ArrayList<Item> itemArrayList =new ArrayList<Item>();
+    public static ArrayList<Item> itemArrayList =new ArrayList<Item>();
     CategoryAdapter categoryAdapter;
     private Dialog loadingDialog;
     RecyclerView listrecylerView;
@@ -51,13 +51,20 @@ public class UserItemActivity extends AppCompatActivity {
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         listrecylerView=findViewById(R.id.listrecylerView);
         listrecylerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        getAllData();
+
     }
+
+    @Override
+    protected void onStart() {
+        getAllData();
+        super.onStart();
+    }
+
     public void getAllData(){
         loadingDialog.show();
         itemArrayList.clear();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Items");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
@@ -126,7 +133,7 @@ public class UserItemActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
 
-                    final CharSequence[] options = {"Delete","Mark As Sold?", "Cancel"};
+                    final CharSequence[] options = {"Update","Delete","Mark As Sold?", "Cancel"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(UserItemActivity.this);
                     builder.setTitle("Select option");
                     builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -137,6 +144,10 @@ public class UserItemActivity extends AppCompatActivity {
                                 getAllData();
                                 dialog.dismiss();
                             } else if (options[item].equals("Cancel")) {
+                                dialog.dismiss();
+                            } else if (options[item].equals("Update")) {
+                                    startActivity(new Intent(UserItemActivity.this,EditItemActivity.class)
+                                    .putExtra("index",position));
                                 dialog.dismiss();
                             }
                             else if (options[item].equals("Mark As Sold?")) {

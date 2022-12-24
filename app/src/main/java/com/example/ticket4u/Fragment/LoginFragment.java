@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment {
         final String user_m=etLoginEmail.getText().toString().trim();
         String id = firebaseAuth.getCurrentUser().getUid();
         myRef=  FirebaseDatabase.getInstance().getReference().child("User");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){

@@ -5,10 +5,12 @@
       <map>
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_about.xml" value="0.26871794871794874" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_add_category.xml" value="0.27291666666666664" />
+        <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_add_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_add_report.xml" value="0.25885416666666666" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_admin.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_admin_main.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_detail.xml" value="0.27291666666666664" />
+        <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_edit_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_report.xml" value="0.27291666666666664" />
         <entry key="..\:/Ticket4u/app/src/main/res/layout/activity_splash.xml" value="0.27291666666666664" />

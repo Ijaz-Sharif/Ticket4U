@@ -194,7 +194,7 @@ public void getAllData(){
         categoryArrayList=new ArrayList<Category>();
         categoryArrayList.add(new Category("All",""));
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){

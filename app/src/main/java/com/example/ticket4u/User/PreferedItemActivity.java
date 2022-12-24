@@ -56,7 +56,7 @@ public class PreferedItemActivity extends AppCompatActivity {
     public void getFavouriteList(){
         favouriteItemList.clear();
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Favourite").child(getUserId(this));
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){

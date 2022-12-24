@@ -88,7 +88,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
         categoriesArrayList.clear();
         CATEGORY="";
         DatabaseReference myRef=  FirebaseDatabase.getInstance().getReference().child("Category");
-       myRef.addValueEventListener(new ValueEventListener() {
+       myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){

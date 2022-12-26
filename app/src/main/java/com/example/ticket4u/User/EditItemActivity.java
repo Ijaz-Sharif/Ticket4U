@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -44,11 +46,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class EditItemActivity extends AppCompatActivity {
-    private EditText et_item_name,et_item_price, et_item_quantity, et_description;
+    private EditText et_item_name,et_item_price, et_item_quantity, et_description,et_item_asking_price,et_item_date;
 
     DatabaseReference myRef;
     private Dialog loadingDialog;
@@ -56,6 +61,8 @@ public class EditItemActivity extends AppCompatActivity {
     StorageReference mRef;
     private Uri imgUri =null;
     int position=0;
+    DatePickerDialog datePicker;
+    final Calendar myCalendar= Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,8 @@ public class EditItemActivity extends AppCompatActivity {
         et_item_price=findViewById(R.id.et_item_price);
         et_item_quantity=findViewById(R.id.et_item_quantity);
         et_description=findViewById(R.id.et_description);
+        et_item_date=findViewById(R.id.et_item_date);
+        et_item_asking_price=findViewById(R.id.et_item_asking_price);
         /////loading dialog
         loadingDialog=new Dialog(this);
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
@@ -75,7 +84,9 @@ public class EditItemActivity extends AppCompatActivity {
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
 
         et_item_name.setText(itemArrayList.get(position).getName());
-           et_item_price.setText(itemArrayList.get(position).getPrice());
+           et_item_price.setText(itemArrayList.get(position).getOriginalPrice());
+           et_item_asking_price.setText(itemArrayList.get(position).getAskingPrice());
+        et_item_date.setText(itemArrayList.get(position).getDate());
            et_description.setText(itemArrayList.get(position).getDescription());
            et_item_quantity.setText(itemArrayList.get(position).getQuantity());
         Picasso.with(this)
@@ -85,7 +96,27 @@ public class EditItemActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(imageView);
 
+        DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH,month);
+                myCalendar.set(Calendar.DAY_OF_MONTH,day);
+                String myFormat="MM/dd/yyyy";
+                SimpleDateFormat dateFormat=new SimpleDateFormat(myFormat, Locale.US);
+                et_item_date.setText(dateFormat.format(myCalendar.getTime()));
+            }
+        };
 
+        et_item_date.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+            @Override
+            public void onClick(View view) {
+                datePicker =  new DatePickerDialog(EditItemActivity.this,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePicker.show();
+            }
+        });
 
 
 
@@ -106,7 +137,9 @@ public class EditItemActivity extends AppCompatActivity {
                             Uri downloadUrl = urlTask.getResult();
                             myRef=  FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId());
                             myRef.child("Name").setValue(et_item_name.getText().toString());
-                            myRef.child("Price").setValue(et_item_price.getText().toString());
+                            myRef.child("AskingPrice").setValue(et_item_asking_price.getText().toString());
+                            myRef.child("OriginalPrice").setValue(et_item_price.getText().toString());
+                            myRef.child("Date").setValue(et_item_date.getText().toString());
                             myRef.child("Quantity").setValue(et_item_quantity.getText().toString());
                             myRef.child("Description").setValue(et_description.getText().toString());
                             myRef.child("ItemImage").setValue(downloadUrl.toString());
@@ -133,7 +166,9 @@ public class EditItemActivity extends AppCompatActivity {
         else {
             myRef=  FirebaseDatabase.getInstance().getReference("Items").child(itemArrayList.get(position).getItemId());
             myRef.child("Name").setValue(et_item_name.getText().toString());
-            myRef.child("Price").setValue(et_item_price.getText().toString());
+            myRef.child("AskingPrice").setValue(et_item_asking_price.getText().toString());
+            myRef.child("OriginalPrice").setValue(et_item_price.getText().toString());
+            myRef.child("Date").setValue(et_item_date.getText().toString());
             myRef.child("Quantity").setValue(et_item_quantity.getText().toString());
             myRef.child("Description").setValue(et_description.getText().toString());
             loadingDialog.dismiss();

@@ -1,9 +1,12 @@
 package com.example.ticket4u.Fragment;
 
+import static com.example.ticket4u.Utils.Constant.getUserCity;
 import static com.example.ticket4u.Utils.Constant.setAdminLoginStatus;
+import static com.example.ticket4u.Utils.Constant.setUserCity;
 import static com.example.ticket4u.Utils.Constant.setUserEmail;
 import static com.example.ticket4u.Utils.Constant.setUserId;
 import static com.example.ticket4u.Utils.Constant.setUserLoginStatus;
+import static com.example.ticket4u.Utils.Constant.setUserNumber;
 import static com.example.ticket4u.Utils.Constant.setUsername;
 
 import android.app.Dialog;
@@ -128,7 +131,6 @@ public class LoginFragment extends Fragment {
     }
     private void getData(){
         final String user_m=etLoginEmail.getText().toString().trim();
-        String id = firebaseAuth.getCurrentUser().getUid();
         myRef=  FirebaseDatabase.getInstance().getReference().child("User");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -138,6 +140,8 @@ public class LoginFragment extends Fragment {
 
                         setUserId(getContext(),dataSnapshot1.child("UserId").getValue(String.class));
                         setUsername(getContext(),dataSnapshot1.child("Name").getValue(String.class));
+                        setUserNumber(getContext(),dataSnapshot1.child("PhoneNumber").getValue(String.class));
+                        setUserCity(getContext(),dataSnapshot1.child("City").getValue(String.class));
                         setUserLoginStatus(getContext(), true);
                         setUserEmail(getContext(),etLoginEmail.getText().toString().trim());
                         loadingDialog.dismiss();

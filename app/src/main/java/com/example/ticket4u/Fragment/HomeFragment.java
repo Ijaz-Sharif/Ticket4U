@@ -87,7 +87,8 @@ public class HomeFragment extends Fragment {
             private void filter(String text) {
                 ArrayList<Item> filterlist=new ArrayList<>();
                 for(Item item: itemArrayList1){
-                    if(item.getName().toLowerCase().contains(text.toLowerCase())||item.getCategory().toLowerCase().contains(text.toLowerCase())){
+                    if(item.getName().toLowerCase().contains(text.toLowerCase())||item.getCategory().toLowerCase().contains(text.toLowerCase())
+                            ||item.getCity().toLowerCase().contains(text.toLowerCase())){
                         filterlist.add(item);
                     }
                 }
@@ -112,15 +113,17 @@ public void getAllData(){
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
                 itemArrayList1.add(new Item(
-                       dataSnapshot1.child("Name").getValue(String.class)
-                       ,dataSnapshot1.child("ItemImage").getValue(String.class)
-                       ,dataSnapshot1.child("Description").getValue(String.class)
-                       ,dataSnapshot1.child("Quantity").getValue(String.class)
-                       ,dataSnapshot1.child("Price").getValue(String.class)
-                       ,dataSnapshot1.child("Category").getValue(String.class)
-                       ,dataSnapshot1.child("SubCategory").getValue(String.class)
-                       ,dataSnapshot1.child("UserId").getValue(String.class),
-                       dataSnapshot1.child("ItemId").getValue(String.class)
+                        dataSnapshot1.child("Name").getValue(String.class)
+                        ,dataSnapshot1.child("ItemImage").getValue(String.class)
+                        ,dataSnapshot1.child("Description").getValue(String.class)
+                        ,dataSnapshot1.child("Quantity").getValue(String.class)
+                        ,dataSnapshot1.child("OriginalPrice").getValue(String.class)
+                        ,dataSnapshot1.child("Category").getValue(String.class)
+                        ,dataSnapshot1.child("SubCategory").getValue(String.class)
+                        ,dataSnapshot1.child("UserId").getValue(String.class),
+                        dataSnapshot1.child("ItemId").getValue(String.class)
+                        , dataSnapshot1.child("AskingPrice").getValue(String.class)
+                        ,dataSnapshot1.child("Date").getValue(String.class)
                ));
             }
             categoryAdapter=new CategoryAdapter();
@@ -149,11 +152,15 @@ public void getAllData(){
                                 ,dataSnapshot1.child("ItemImage").getValue(String.class)
                                 ,dataSnapshot1.child("Description").getValue(String.class)
                                 ,dataSnapshot1.child("Quantity").getValue(String.class)
-                                ,dataSnapshot1.child("Price").getValue(String.class)
+                                ,dataSnapshot1.child("OriginalPrice").getValue(String.class)
                                 ,dataSnapshot1.child("Category").getValue(String.class)
                                 ,dataSnapshot1.child("SubCategory").getValue(String.class)
                                 ,dataSnapshot1.child("UserId").getValue(String.class),
                                 dataSnapshot1.child("ItemId").getValue(String.class)
+                                , dataSnapshot1.child("AskingPrice").getValue(String.class)
+                                ,dataSnapshot1.child("Date").getValue(String.class)
+                                ,dataSnapshot1.child("City").getValue(String.class)
+                                ,dataSnapshot1.child("Number").getValue(String.class)
                         ));
 
                     }
@@ -348,7 +355,7 @@ public void getAllData(){
 
 
             holder.name.setText(itemArrayList.get(position).getName());
-            holder.price.setText(itemArrayList.get(position).getPrice());
+            holder.price.setText(itemArrayList.get(position).getOriginalPrice()+" $");
             holder.quantity.setText(itemArrayList.get(position).getQuantity());
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

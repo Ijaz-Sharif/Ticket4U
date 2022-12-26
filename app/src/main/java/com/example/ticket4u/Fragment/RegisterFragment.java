@@ -53,7 +53,7 @@ import java.util.List;
 
 public class RegisterFragment extends Fragment {
     private EditText etRegisterEmail,et_user_name, etRegisterPassword, etRegisterConfirmPassword,
-            et_latitude,et_register_address,et_user_number,et_longitude;
+            et_latitude,et_register_country,et_register_state,et_register_city,et_user_number,et_longitude,et_register_category;
     private FirebaseAuth firebaseAuth;
     DatabaseReference myRef;
     TextView tv_login;
@@ -72,9 +72,12 @@ public class RegisterFragment extends Fragment {
 
         et_latitude=view.findViewById(R.id.et_latitude);
         imageView=view.findViewById(R.id.userPic);
+        et_register_category=view.findViewById(R.id.et_register_category);
         et_user_number=view.findViewById(R.id.et_user_number);
-        et_register_address=view.findViewById(R.id.et_register_address);
+        et_register_country=view.findViewById(R.id.et_register_country);
         et_longitude=view.findViewById(R.id.et_longitude);
+        et_register_state=view.findViewById(R.id.et_register_state);
+        et_register_city=view.findViewById(R.id.et_register_city);
         /////loading dialog
         loadingDialog=new Dialog(getContext());
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
@@ -111,10 +114,10 @@ public class RegisterFragment extends Fragment {
                 String password = etRegisterPassword.getText().toString();
                 String confirm_password = etRegisterConfirmPassword.getText().toString();
                 String user_number =et_user_number.getText().toString();
-                String register_address =et_register_address.getText().toString();
+                String register_country =et_register_country.getText().toString();
                 String latitude =et_latitude.getText().toString();
                 String longitude =et_longitude.getText().toString();
-                if (validate(email,name, password, confirm_password,user_number,register_address,latitude,longitude)) requestRegister(email, password);
+                if (validate(email,name, password, confirm_password,user_number,register_country,latitude,longitude)) requestRegister(email, password);
             }
         });
         return view;
@@ -123,11 +126,14 @@ public class RegisterFragment extends Fragment {
     private boolean validate(String email, String name, String password, String confirm_password, String user_number, String register_address,String latitude,String longitude) {
         if (email.isEmpty()) etRegisterEmail.setError("Enter email!");
         else if (imgUri==null) Toast.makeText(getContext(),"select your image",Toast.LENGTH_LONG).show();
-        else if (register_address.isEmpty()) et_user_name.setError("Enter address!");
+        else if (register_address.isEmpty()) et_register_country.setError("Enter country!");
+        else if (et_register_state.getText().toString().isEmpty()) et_register_state.setError("Enter state!");
+        else if (et_register_city.getText().toString().isEmpty()) et_register_city.setError("Enter city!");
         else if (latitude.isEmpty()) et_latitude.setError("Required!");
         else if (longitude.isEmpty()) et_longitude.setError("Required!");
         else if (user_number.isEmpty()) et_user_number.setError("Enter phone number!");
         else if (name.isEmpty()) et_user_name.setError("Enter name!");
+        else if (et_register_category.getText().toString().isEmpty()) et_register_category.setError("Enter required!");
         else if (!email.contains("@")||!email.contains(".")) etRegisterEmail.setError("Enter valid email!");
         else if (password.isEmpty()) etRegisterPassword.setError("Enter password!");
         else if (password.length()<6) etRegisterPassword.setError("Password must be at least 6 characters!");
@@ -170,7 +176,10 @@ public class RegisterFragment extends Fragment {
                         myRef.child("Name").setValue(et_user_name.getText().toString());
                         myRef.child("UserId").setValue(id);
                         myRef.child("Mail").setValue(etRegisterEmail.getText().toString());
-                        myRef.child("Address").setValue(et_register_address.getText().toString());
+                        myRef.child("Country").setValue(et_register_country.getText().toString());
+                        myRef.child("City").setValue(et_register_city.getText().toString());
+                        myRef.child("State").setValue(et_register_state.getText().toString());
+                        myRef.child("Category").setValue(et_register_category.getText().toString());
                         myRef.child("PhoneNumber").setValue(et_user_number.getText().toString());
                         myRef.child("Latitude").setValue(et_latitude.getText().toString());
                         myRef.child("Longitude").setValue(et_longitude.getText().toString());

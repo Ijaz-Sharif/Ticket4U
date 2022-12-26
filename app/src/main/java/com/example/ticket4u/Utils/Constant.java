@@ -53,6 +53,24 @@ public class Constant {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putString("id", s).commit();
     }
+    public static String getUserNumber(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("number","");
+    }
+
+    public static void setUserNumber(Context context , String s){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("number", s).commit();
+    }
+    public static String getUserCity(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString("city","");
+    }
+
+    public static void setUserCity(Context context , String s){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("city", s).commit();
+    }
     public static void ShowMessageDialogWithOkBtn(Context context, String message,
                                                   DialogInterface.OnClickListener positiveBtnListner){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);

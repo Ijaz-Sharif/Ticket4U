@@ -74,11 +74,13 @@ public class UserItemActivity extends AppCompatActivity {
                                 ,dataSnapshot1.child("ItemImage").getValue(String.class)
                                 ,dataSnapshot1.child("Description").getValue(String.class)
                                 ,dataSnapshot1.child("Quantity").getValue(String.class)
-                                ,dataSnapshot1.child("Price").getValue(String.class)
+                                ,dataSnapshot1.child("OriginalPrice").getValue(String.class)
                                 ,dataSnapshot1.child("Category").getValue(String.class)
                                 ,dataSnapshot1.child("SubCategory").getValue(String.class)
                                 ,dataSnapshot1.child("UserId").getValue(String.class),
                                 dataSnapshot1.child("ItemId").getValue(String.class)
+                                , dataSnapshot1.child("AskingPrice").getValue(String.class)
+                                ,dataSnapshot1.child("Date").getValue(String.class)
                         ));
                     }
 
@@ -126,7 +128,7 @@ public class UserItemActivity extends AppCompatActivity {
 
 
             holder.name.setText(itemArrayList.get(position).getName());
-            holder.price.setText(itemArrayList.get(position).getPrice());
+            holder.price.setText(itemArrayList.get(position).getOriginalPrice()+" $");
             holder.quantity.setText(itemArrayList.get(position).getQuantity());
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

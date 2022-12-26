@@ -9,9 +9,14 @@ import static com.example.ticket4u.Utils.Constant.setUsername;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +34,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
-    private EditText et_item_name,et_item_price, et_item_quantity, et_description,et_user_name;
+    private EditText et_item_name,et_item_price, et_item_quantity, et_description,et_user_name
+            ,et_item_asking_price,et_item_date,et_category,et_sub_category,et_number;
 
     private Dialog loadingDialog;
     ImageView imageView;
     int index;
     String longitude="",latitude="";
+    String dial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,11 @@ public class DetailActivity extends AppCompatActivity {
         et_item_quantity=findViewById(R.id.et_item_quantity);
         et_description=findViewById(R.id.et_description);
         et_user_name=findViewById(R.id.et_user_name);
+        et_item_asking_price=findViewById(R.id.et_item_asking_price);
+        et_item_date=findViewById(R.id.et_item_date);
+        et_sub_category=findViewById(R.id.et_sub_category);
+        et_category=findViewById(R.id.et_category);
+        et_number=findViewById(R.id.et_user_number);
         index=getIntent().getIntExtra("index",-1);
         /////loading dialog
         loadingDialog=new Dialog(this);
@@ -61,9 +73,14 @@ public class DetailActivity extends AppCompatActivity {
 
 
         et_item_name.setText(itemArrayList.get(index).getName());
-        et_item_price.setText(itemArrayList.get(index).getPrice());
+        et_item_price.setText(itemArrayList.get(index).getOriginalPrice());
         et_item_quantity.setText(itemArrayList.get(index).getQuantity());
         et_description.setText(itemArrayList.get(index).getDescription());
+        et_item_date.setText(itemArrayList.get(index).getDate());
+        et_item_asking_price.setText(itemArrayList.get(index).getAskingPrice());
+        et_sub_category.setText(itemArrayList.get(index).getSubCategory());
+        et_category.setText(itemArrayList.get(index).getCategory());
+        et_number.setText(itemArrayList.get(index).getNumber());
         getUserRecord(itemArrayList.get(index).getUserId());
     }
 
@@ -107,5 +124,29 @@ public class DetailActivity extends AppCompatActivity {
                       .putExtra("id",itemArrayList.get(index).getItemId()));
           }
 
+    }
+
+    public void addCall(View view) {
+        dial="tel:" +itemArrayList.get(index).getNumber();
+        makePhoneCall();
+    }
+    private void makePhoneCall(){
+        if(ContextCompat.checkSelfPermission(DetailActivity.this,
+                android.Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(DetailActivity.this,
+                    new String[]{  android.Manifest.permission.CALL_PHONE},1);
+        }
+        else {
+            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+        }
+    }
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==requestCode){
+            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                makePhoneCall();
+            }
+        }
     }
 }

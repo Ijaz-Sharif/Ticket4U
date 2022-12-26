@@ -55,7 +55,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UpdateProfileActivity extends AppCompatActivity {
-    private EditText et_register_address,et_user_number, et_latitude,et_longitude,et_user_name;
+    private EditText et_register_country,et_register_state,et_register_city,et_user_number,
+            et_latitude,et_longitude,et_user_name,et_register_category;
     DatabaseReference myRef;
     private Dialog loadingDialog;
     ImageView imageView;
@@ -71,9 +72,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
         et_user_name=findViewById(R.id.et_user_name);
         imageView=findViewById(R.id.updateUserPic);
         et_user_number=findViewById(R.id.et_user_number);
-        et_register_address=findViewById(R.id.et_register_address);
         et_latitude=findViewById(R.id.et_latitude);
         et_longitude=findViewById(R.id.et_longitude);
+
+        et_register_category=findViewById(R.id.et_register_category);
+        et_register_country=findViewById(R.id.et_register_country);
+        et_register_state=findViewById(R.id.et_register_state);
+        et_register_city=findViewById(R.id.et_register_city);
         /////loading dialog
         loadingDialog=new Dialog(this);
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
@@ -93,7 +98,10 @@ public void loadProfile(){
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
            et_user_name.setText(dataSnapshot.child("Name").getValue(String.class));
-            et_register_address.setText(dataSnapshot.child("Address").getValue(String.class));
+            et_register_country.setText(dataSnapshot.child("Country").getValue(String.class));
+            et_register_city.setText(dataSnapshot.child("City").getValue(String.class));
+            et_register_state.setText(dataSnapshot.child("State").getValue(String.class));
+            et_register_category.setText(dataSnapshot.child("Category").getValue(String.class));
             et_latitude.setText(dataSnapshot.child("Latitude").getValue(String.class));
             et_longitude.setText(dataSnapshot.child("Longitude").getValue(String.class));
             et_user_number.setText(dataSnapshot.child("PhoneNumber").getValue(String.class));
@@ -135,7 +143,10 @@ public void loadProfile(){
                             while (!urlTask.isSuccessful()) ;
                             Uri downloadUrl = urlTask.getResult();
                             myRef.child("Name").setValue(et_user_name.getText().toString());
-                            myRef.child("Address").setValue(et_register_address.getText().toString());
+                            myRef.child("Country").setValue(et_register_country.getText().toString());
+                            myRef.child("City").setValue(et_register_city.getText().toString());
+                            myRef.child("State").setValue(et_register_state.getText().toString());
+                            myRef.child("Category").setValue(et_register_category.getText().toString());
                             myRef.child("PhoneNumber").setValue(et_user_number.getText().toString());
                             myRef.child("Latitude").setValue(et_latitude.getText().toString());
                             myRef.child("Longitude").setValue(et_longitude.getText().toString());
@@ -163,7 +174,10 @@ public void loadProfile(){
         }
         else {
             myRef.child("Name").setValue(et_user_name.getText().toString());
-            myRef.child("Address").setValue(et_register_address.getText().toString());
+            myRef.child("Country").setValue(et_register_country.getText().toString());
+            myRef.child("City").setValue(et_register_city.getText().toString());
+            myRef.child("State").setValue(et_register_state.getText().toString());
+            myRef.child("Category").setValue(et_register_category.getText().toString());
             myRef.child("PhoneNumber").setValue(et_user_number.getText().toString());
             myRef.child("Latitude").setValue(et_latitude.getText().toString());
             myRef.child("Longitude").setValue(et_longitude.getText().toString());
